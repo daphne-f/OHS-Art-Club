@@ -5,6 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>OHS Art Club</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          serif: ['Cormorant Garamond', 'serif'],
+          sans: ['DM Sans', 'sans-serif'],
+        },
+        colors: {
+          navy: '#0e1b35',
+          'navy-mid': '#162244',
+          parchment: '#f7f2eb',
+          'parchment-dark': '#ede5d8',
+          'warm-white': '#faf8f5',
+          gold: '#b8873a',
+          'gold-light': '#d4a85c',
+          'gold-pale': '#f0ddb8',
+          ink: '#1a1612',
+          'ink-mid': '#3d3530',
+          'ink-soft': '#7a6f66',
+          'ink-faint': '#b5aca3',
+        },
+      }
+    }
+  }
+</script>
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
@@ -33,6 +60,17 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; a
 .nav-links a { font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-soft); text-decoration: none; transition: color 0.25s; }
 .nav-links a:hover { color: var(--ink); }
 
+/* Mobile nav */
+@media (max-width: 640px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { gap: 1.4rem; }
+  .nav-links a { font-size: 0.66rem; letter-spacing: 0.1em; }
+}
+@media (max-width: 400px) {
+  .nav-links { gap: 1rem; }
+  .nav-links li:nth-child(3), .nav-links li:nth-child(4) { display: none; }
+}
+
 /* HERO */
 .hero { min-height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; background: var(--parchment); }
 .hero-collage { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(7,1fr); grid-template-rows: repeat(4,1fr); }
@@ -44,11 +82,11 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; a
 .torn-bottom { bottom: -1px; }
 .hero-content { position: relative; z-index: 3; text-align: center; display: flex; flex-direction: column; align-items: center; padding: 0 2rem; }
 .hero-eyebrow { font-size: 0.68rem; letter-spacing: 0.38em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.4rem; animation: fadeUp 0.9s ease both; }
-.hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(5.5rem,15vw,12rem); font-weight: 300; line-height: 0.86; letter-spacing: -0.015em; color: var(--navy); animation: fadeUp 0.9s 0.12s ease both; }
+.hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(4.5rem,14vw,12rem); font-weight: 300; line-height: 0.86; letter-spacing: -0.015em; color: var(--navy); animation: fadeUp 0.9s 0.12s ease both; }
 .hero-title span { display: block; font-size: 0.35em; letter-spacing: 0.45em; font-weight: 300; color: var(--ink-mid); margin-bottom: 0.15em; }
 .ornament { margin: 2rem 0 1.6rem; animation: fadeUp 0.9s 0.25s ease both; }
 .hero-sub { font-size: 0.82rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-soft); animation: fadeUp 0.9s 0.35s ease both; }
-.hero-cta { margin-top: 2.8rem; display: flex; gap: 1rem; animation: fadeUp 0.9s 0.45s ease both; }
+.hero-cta { margin-top: 2.8rem; display: flex; gap: 1rem; animation: fadeUp 0.9s 0.45s ease both; flex-wrap: wrap; justify-content: center; }
 .btn { font-family: 'DM Sans', sans-serif; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; padding: 0.85rem 2rem; text-decoration: none; transition: all 0.25s; cursor: pointer; border: none; display: inline-block; }
 .btn-primary { background: var(--navy); color: var(--parchment); }
 .btn-primary:hover { background: var(--navy-mid); }
@@ -59,8 +97,11 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; a
 
 /* SECTIONS */
 section { padding: 6rem 4rem; }
+@media (max-width: 768px) { section { padding: 4rem 1.5rem; } }
+@media (max-width: 480px) { section { padding: 3rem 1.25rem; } }
+
 .section-label { font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
-.section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem,5vw,3.6rem); font-weight: 300; line-height: 1.06; color: var(--navy); margin-bottom: 1.2rem; }
+.section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,5vw,3.6rem); font-weight: 300; line-height: 1.06; color: var(--navy); margin-bottom: 1.2rem; }
 .section-title em { font-style: italic; color: var(--ink-mid); }
 .divider-line { width: 44px; height: 1px; background: var(--gold); margin-bottom: 2rem; }
 
@@ -76,14 +117,25 @@ section { padding: 6rem 4rem; }
 .artist-grade { font-size: 0.76rem; letter-spacing: 0.12em; color: var(--ink-soft); margin-bottom: 1.5rem; }
 .artwork-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-style: italic; color: var(--ink-mid); margin-bottom: 0.9rem; }
 .artwork-desc { font-size: 0.88rem; line-height: 1.85; color: var(--ink-soft); margin-bottom: 2rem; max-width: 36ch; }
-.event-banner { max-width: 1200px; margin: 2.5rem auto 0; border: 1px solid var(--border-strong);background: #fff; padding: 2rem 3rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+.event-banner { max-width: 1200px; margin: 2.5rem auto 0; border: 1px solid var(--border-strong); background: #fff; padding: 2rem 3rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
 .event-date { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300; color: var(--gold); line-height: 1; text-align: center; min-width: 70px; }
 .event-date span { display: block; font-family: 'DM Sans', sans-serif; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); font-weight: 300; margin-top: 0.2rem; }
 .event-vr { width: 1px; height: 55px; background: rgba(240,221,184,0.2); }
-.event-details { flex: 1; }
+.event-details { flex: 1; min-width: 160px; }
 .event-type { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold-light); }
 .event-name { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 300; color: var(--navy); }
 .event-meta { font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.25rem; }
+
+/* Spotlight mobile */
+@media (max-width: 768px) {
+  .spotlight { grid-template-columns: 1fr; }
+  .spotlight-art { min-height: 280px; }
+  .spotlight-art svg { min-height: 280px; }
+  .spotlight-info { padding: 2rem 1.5rem; border-left: none; border-top: 1px solid var(--border); }
+  .artist-name { font-size: 1.8rem; }
+  .event-banner { padding: 1.5rem; gap: 1rem; }
+  .event-vr { display: none; }
+}
 
 /* ABOUT */
 .about-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.65fr; gap: 6rem; align-items: start; }
@@ -100,9 +152,14 @@ section { padding: 6rem 4rem; }
 .pillar-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 400; color: var(--navy); margin-bottom: 0.3rem; }
 .pillar-text { font-size: 0.84rem; line-height: 1.75; color: var(--ink-soft); }
 
+@media (max-width: 900px) {
+  .about-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .about-left { position: static; }
+}
+
 /* GALLERY */
 .gallery-inner { max-width: 1200px; margin: 0 auto; }
-.gallery-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; }
+.gallery-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem; }
 .gallery-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 3px; }
 .gallery-item { position: relative; overflow: hidden; background: var(--parchment); cursor: pointer; }
 .gallery-item:nth-child(1) { grid-column: span 2; }
@@ -115,6 +172,23 @@ section { padding: 6rem 4rem; }
 .gallery-item:hover .gallery-overlay { opacity: 1; }
 .gallery-event-name { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--parchment); }
 .gallery-event-date { font-size: 0.68rem; letter-spacing: 0.15em; color: var(--gold-pale); margin-top: 0.15rem; }
+
+/* Gallery mobile: show overlay always on touch devices */
+@media (max-width: 768px) {
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 3px; }
+  .gallery-item:nth-child(1) { grid-column: span 2; }
+  .gallery-item:nth-child(4) { grid-column: span 2; }
+  .gallery-item:nth-child(1) .gallery-thumb { aspect-ratio: 16/9; }
+  .gallery-item:nth-child(4) .gallery-thumb { aspect-ratio: 16/9; }
+  .gallery-overlay { opacity: 1; }
+}
+@media (max-width: 480px) {
+  .gallery-grid { grid-template-columns: 1fr; }
+  .gallery-item:nth-child(1) { grid-column: span 1; }
+  .gallery-item:nth-child(4) { grid-column: span 1; }
+  .gallery-item:nth-child(1) .gallery-thumb,
+  .gallery-item:nth-child(4) .gallery-thumb { aspect-ratio: 4/3; }
+}
 
 /* PEOPLE */
 .people-section { background: var(--parchment); }
@@ -137,10 +211,33 @@ section { padding: 6rem 4rem; }
 .contact-item-value { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--navy); font-weight: 300; }
 .contact-item-sub { font-size: 0.78rem; color: var(--ink-soft); }
 
+@media (max-width: 1024px) {
+  .people-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .people-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .person-info { padding: 1rem 0.9rem 1.2rem; }
+  .person-name { font-size: 1.1rem; }
+  .person-bio { font-size: 0.78rem; }
+}
+@media (max-width: 360px) {
+  .people-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .contact-strip { grid-template-columns: 1fr; }
+  .contact-item { border-right: none; border-bottom: 1px solid var(--border); }
+  .contact-item:last-child { border-bottom: none; }
+  .contact-item { padding: 1.4rem 1.5rem; }
+}
+
 /* FOOTER */
-footer { border-top: 1px solid var(--border); padding: 2rem 4rem; display: flex; align-items: center; justify-content: space-between; background: var(--warm-white); }
-.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(#fff); }
+footer { border-top: 1px solid var(--border); padding: 2rem 4rem; display: flex; align-items: center; justify-content: space-between; background: var(--warm-white); flex-wrap: wrap; gap: 0.75rem; }
+.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink); }
 .footer-copy { font-size: 0.7rem; letter-spacing: 0.08em; color: var(--ink-faint); }
+
+@media (max-width: 640px) {
+  footer { padding: 1.5rem; flex-direction: column; align-items: flex-start; }
+}
 
 /* ANIMATIONS */
 @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
@@ -191,15 +288,13 @@ footer { border-top: 1px solid var(--border); padding: 2rem 4rem; display: flex;
     <p class="hero-sub">Some cool slogan or something</p>
     <div class="hero-cta">
       <a href="#gallery" class="btn btn-primary">Archives</a>
-      <a href="#people" class="btn btn-outline">Meet the Team</a>
+      <a href="#about" class="btn btn-outline">About Us</a>
     </div>
   </div>
 
   <svg class="torn-bottom" viewBox="0 0 1440 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M0,70 L0,45 Q18,37 36,46 Q54,55 72,43 Q90,31 108,43 Q126,55 144,43 Q162,31 180,43 Q198,55 216,43 Q234,31 252,44 Q270,57 288,44 Q306,31 324,44 Q342,57 360,44 Q378,31 396,44 Q414,57 432,44 Q450,31 468,44 Q486,57 504,44 Q522,31 540,45 Q558,59 576,45 Q594,31 612,44 Q630,57 648,44 Q666,31 684,44 Q702,57 720,44 Q738,31 756,44 Q774,57 792,44 Q810,31 828,44 Q846,57 864,44 Q882,31 900,44 Q918,57 936,44 Q954,31 972,45 Q990,59 1008,45 Q1026,31 1044,44 Q1062,57 1080,44 Q1098,31 1116,44 Q1134,57 1152,44 Q1170,31 1188,44 Q1206,57 1224,44 Q1242,31 1260,44 Q1278,57 1296,44 Q1314,31 1332,44 Q1350,57 1368,44 Q1386,31 1404,44 Q1422,57 1440,44 L1440,70 Z" fill="#faf8f5"/>
   </svg>
-
-  </div>
 </section>
 
 <!-- SPOTLIGHT -->
@@ -244,22 +339,22 @@ footer { border-top: 1px solid var(--border); padding: 2rem 4rem; display: flex;
       </div>
       <div class="spotlight-info">
         <div class="artist-tag">Featured Artist</div>
-        <p class="artist-name">First Name/Last Name</p>
+        <p class="artist-name">First Name / Last Name</p>
         <p class="artist-grade">Grade &nbsp;·&nbsp; Medium</p>
-        <p class="artwork-title">Artwork Title"</p>
+        <p class="artwork-title">"Artwork Title"</p>
         <p class="artwork-desc">Artwork description goes here, if any. Something about what inspired the piece, how they created it, etc.</p>
-        <a href="#people" class="btn btn-primary" style="align-self:flex-start;">Meet the Artist</a>
+        <a href="#leaders" class="btn btn-primary" style="align-self:flex-start;">Meet the Artist</a>
       </div>
     </div>
     <div class="event-banner reveal">
-      <div class="event-date">24<span>Month/Date</span></div>
+      <div class="event-date">24<span>Month / Date</span></div>
       <div class="event-vr"></div>
       <div class="event-details">
         <p class="event-type">Upcoming Event</p>
         <p class="event-name">Featured Event Name</p>
         <p class="event-meta">Time Here</p>
       </div>
-      <a href="#people" class="btn btn-gold">Form Link?</a>
+      <a href="#leaders" class="btn btn-gold">Form Link?</a>
     </div>
   </div>
 </section>
@@ -281,7 +376,7 @@ footer { border-top: 1px solid var(--border); padding: 2rem 4rem; display: flex;
     <div class="about-body">
       <p class="reveal">The <strong>OHS Art Club</strong> is a student-led creative community dedicated to the exploration and celebration of visual art in all its forms. We work to create a space for students to explore their interests in art and to create a community of support and learning.</p>
       <p class="reveal reveal-delay-1">We believe art is not a talent you either have or don't — it is something that <strong>anyone can learn</strong>. Whether you have never picked up a brush or are already selling your work online, there is a place for you here.</p>
-      <p class="reveal reveal-delay-2">Every semester we run workshops,art showcases, and other events! All skill levels and artistic interests are welcome.</p>
+      <p class="reveal reveal-delay-2">Every semester we run workshops, art showcases, and other events! All skill levels and artistic interests are welcome.</p>
     </div>
   </div>
 </section>
@@ -356,7 +451,7 @@ footer { border-top: 1px solid var(--border); padding: 2rem 4rem; display: flex;
             <line x1="661" y1="84" x2="661" y2="52" stroke="rgba(26,22,18,0.15)" stroke-width="0.5"/>
           </svg>
         </div>
-        <div class="gallery-overlay"><p class="gallery-event-name">Event 5</p><p class="gallery-event-date">Month - Year</p></div>
+        <div class="gallery-overlay"><p class="gallery-event-name">Event 4</p><p class="gallery-event-date">Month - Year</p></div>
       </div>
     </div>
   </div>
