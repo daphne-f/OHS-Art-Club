@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OHS Art Club</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --navy: #0e1b35;
+  --navy-mid: #162244;
+  --parchment: #f7f2eb;
+  --parchment-dark: #ede5d8;
+  --warm-white: #faf8f5;
+  --gold: #b8873a;
+  --gold-light: #d4a85c;
+  --gold-pale: #f0ddb8;
+  --ink: #1a1612;
+  --ink-mid: #3d3530;
+  --ink-soft: #7a6f66;
+  --ink-faint: #b5aca3;
+  --border: rgba(26,22,18,0.1);
+  --border-strong: rgba(26,22,18,0.18);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--warm-white); color: var(--ink); font-family: 'DM Sans', sans-serif; font-weight: 300; overflow-x: hidden; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 4rem; background: rgba(250,248,245,0.93); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--navy); text-decoration: none; font-weight: 400; }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a { font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-soft); text-decoration: none; transition: color 0.25s; }
+.nav-links a:hover { color: var(--ink); }
+
+/* HERO */
+.hero { min-height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; background: var(--parchment); }
+.hero-collage { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(7,1fr); grid-template-rows: repeat(4,1fr); }
+.collage-cell { overflow: hidden; }
+.collage-cell svg { width: 100%; height: 100%; display: block; }
+.hero-overlay { position: absolute; inset: 0; background: rgba(247,242,235,0.74); z-index: 1; }
+.torn-top, .torn-bottom { position: absolute; left: -2px; right: -2px; z-index: 2; pointer-events: none; }
+.torn-top { top: -1px; }
+.torn-bottom { bottom: -1px; }
+.hero-content { position: relative; z-index: 3; text-align: center; display: flex; flex-direction: column; align-items: center; padding: 0 2rem; }
+.hero-eyebrow { font-size: 0.68rem; letter-spacing: 0.38em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.4rem; animation: fadeUp 0.9s ease both; }
+.hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(5.5rem,15vw,12rem); font-weight: 300; line-height: 0.86; letter-spacing: -0.015em; color: var(--navy); animation: fadeUp 0.9s 0.12s ease both; }
+.hero-title span { display: block; font-size: 0.35em; letter-spacing: 0.45em; font-weight: 300; color: var(--ink-mid); margin-bottom: 0.15em; }
+.ornament { margin: 2rem 0 1.6rem; animation: fadeUp 0.9s 0.25s ease both; }
+.hero-sub { font-size: 0.82rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-soft); animation: fadeUp 0.9s 0.35s ease both; }
+.hero-cta { margin-top: 2.8rem; display: flex; gap: 1rem; animation: fadeUp 0.9s 0.45s ease both; }
+.btn { font-family: 'DM Sans', sans-serif; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; padding: 0.85rem 2rem; text-decoration: none; transition: all 0.25s; cursor: pointer; border: none; display: inline-block; }
+.btn-primary { background: var(--navy); color: var(--parchment); }
+.btn-primary:hover { background: var(--navy-mid); }
+.btn-outline { border: 1px solid var(--border-strong); color: var(--ink); background: transparent; }
+.btn-outline:hover { border-color: var(--ink); background: rgba(26,22,18,0.04); }
+.btn-gold { background: var(--gold); color: #fff; }
+.btn-gold:hover { background: var(--gold-light); }
+
+/* SECTIONS */
+section { padding: 6rem 4rem; }
+.section-label { font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
+.section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem,5vw,3.6rem); font-weight: 300; line-height: 1.06; color: var(--navy); margin-bottom: 1.2rem; }
+.section-title em { font-style: italic; color: var(--ink-mid); }
+.divider-line { width: 44px; height: 1px; background: var(--gold); margin-bottom: 2rem; }
+
+/* SPOTLIGHT */
+.spotlight-wrap { max-width: 1200px; margin: 0 auto; }
+.spotlight { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--border-strong); background: #fff; overflow: hidden; }
+.spotlight-art { min-height: 440px; overflow: hidden; background: var(--parchment); }
+.spotlight-art svg { width: 100%; height: 100%; min-height: 440px; display: block; }
+.spotlight-info { padding: 3.5rem; display: flex; flex-direction: column; justify-content: center; border-left: 1px solid var(--border); }
+.artist-tag { display: inline-flex; align-items: center; gap: 0.6rem; font-size: 0.65rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.4rem; }
+.artist-tag::before { content:''; display: block; width: 20px; height: 1px; background: var(--gold); }
+.artist-name { font-family: 'Cormorant Garamond', serif; font-size: 2.3rem; font-weight: 300; color: var(--navy); margin-bottom: 0.25rem; }
+.artist-grade { font-size: 0.76rem; letter-spacing: 0.12em; color: var(--ink-soft); margin-bottom: 1.5rem; }
+.artwork-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-style: italic; color: var(--ink-mid); margin-bottom: 0.9rem; }
+.artwork-desc { font-size: 0.88rem; line-height: 1.85; color: var(--ink-soft); margin-bottom: 2rem; max-width: 36ch; }
+.event-banner { max-width: 1200px; margin: 2.5rem auto 0; border: 1px solid var(--border-strong);background: #fff; padding: 2rem 3rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+.event-date { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300; color: var(--gold); line-height: 1; text-align: center; min-width: 70px; }
+.event-date span { display: block; font-family: 'DM Sans', sans-serif; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); font-weight: 300; margin-top: 0.2rem; }
+.event-vr { width: 1px; height: 55px; background: rgba(240,221,184,0.2); }
+.event-details { flex: 1; }
+.event-type { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold-light); }
+.event-name { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 300; color: var(--navy); }
+.event-meta { font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.25rem; }
+
+/* ABOUT */
+.about-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.65fr; gap: 6rem; align-items: start; }
+.about-left { position: sticky; top: 6rem; }
+.about-stats { margin-top: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1px; border: 1px solid var(--border); background: var(--border); overflow: hidden; }
+.stat-box { padding: 1.4rem 1.2rem; background: var(--warm-white); }
+.stat-number { font-family: 'Cormorant Garamond', serif; font-size: 2.6rem; font-weight: 300; color: var(--gold); line-height: 1; }
+.stat-label { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-top: 0.25rem; }
+.about-body p { font-size: 0.95rem; line-height: 1.95; color: var(--ink-soft); margin-bottom: 1.4rem; }
+.about-body p strong { color: var(--ink); font-weight: 500; }
+.pillars { margin-top: 2.5rem; }
+.pillar { display: flex; gap: 1.4rem; padding: 1.4rem 0; border-bottom: 1px solid var(--border); }
+.pillar-num { font-family: 'Cormorant Garamond', serif; font-size: 0.82rem; color: var(--gold); min-width: 26px; padding-top: 0.15rem; }
+.pillar-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 400; color: var(--navy); margin-bottom: 0.3rem; }
+.pillar-text { font-size: 0.84rem; line-height: 1.75; color: var(--ink-soft); }
+
+/* GALLERY */
+.gallery-inner { max-width: 1200px; margin: 0 auto; }
+.gallery-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; }
+.gallery-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 3px; }
+.gallery-item { position: relative; overflow: hidden; background: var(--parchment); cursor: pointer; }
+.gallery-item:nth-child(1) { grid-column: span 2; }
+.gallery-item:nth-child(4) { grid-column: span 2; }
+.gallery-thumb { width: 100%; aspect-ratio: 4/3; overflow: hidden; }
+.gallery-item:nth-child(1) .gallery-thumb, .gallery-item:nth-child(4) .gallery-thumb { aspect-ratio: 16/7; }
+.gallery-thumb svg { width: 100%; height: 100%; display: block; transition: transform 0.6s ease; }
+.gallery-item:hover .gallery-thumb svg { transform: scale(1.04); }
+.gallery-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(14,27,53,0.82) 0%, transparent 55%); opacity: 0; transition: opacity 0.35s; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.4rem; }
+.gallery-item:hover .gallery-overlay { opacity: 1; }
+.gallery-event-name { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--parchment); }
+.gallery-event-date { font-size: 0.68rem; letter-spacing: 0.15em; color: var(--gold-pale); margin-top: 0.15rem; }
+
+/* PEOPLE */
+.people-section { background: var(--parchment); }
+.people-inner { max-width: 1200px; margin: 0 auto; }
+.people-header { margin-bottom: 3.5rem; }
+.people-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem; }
+.person-card { background: #fff; border: 1px solid var(--border); overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
+.person-card:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(26,22,18,0.1); }
+.person-avatar { width: 100%; aspect-ratio: 1; overflow: hidden; }
+.person-avatar svg { width: 100%; height: 100%; display: block; }
+.person-info { padding: 1.25rem 1.2rem 1.5rem; }
+.person-role { font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.35rem; }
+.person-name { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 400; color: var(--navy); margin-bottom: 0.2rem; }
+.person-grade { font-size: 0.75rem; color: var(--ink-soft); margin-bottom: 0.75rem; }
+.person-bio { font-size: 0.82rem; line-height: 1.72; color: var(--ink-soft); }
+.contact-strip { max-width: 1200px; margin: 4rem auto 0; background: #fff; display: grid; grid-template-columns: repeat(3,1fr); border: 1px solid var(--border-strong); }
+.contact-item { padding: 2rem 2.2rem; border-right: 1px solid var(--border); display: flex; flex-direction: column; gap: 0.3rem; }
+.contact-item:last-child { border-right: none; }
+.contact-item-label { font-size: 0.62rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); }
+.contact-item-value { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--navy); font-weight: 300; }
+.contact-item-sub { font-size: 0.78rem; color: var(--ink-soft); }
+
+/* FOOTER */
+footer { border-top: 1px solid var(--border); padding: 2rem 4rem; display: flex; align-items: center; justify-content: space-between; background: var(--warm-white); }
+.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(#fff); }
+.footer-copy { font-size: 0.7rem; letter-spacing: 0.08em; color: var(--ink-faint); }
+
+/* ANIMATIONS */
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+@keyframes scrollPulse { 0%,100%{opacity:0.35} 50%{opacity:1} }
+.reveal { opacity:0; transform:translateY(26px); transition: opacity 0.75s ease, transform 0.75s ease; }
+.reveal.visible { opacity:1; transform:none; }
+.reveal-delay-1 { transition-delay:0.12s; }
+.reveal-delay-2 { transition-delay:0.24s; }
+.reveal-delay-3 { transition-delay:0.36s; }
+.reveal-delay-4 { transition-delay:0.48s; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">OHS Art Club</a>
+  <ul class="nav-links">
+    <li><a href="#spotlight">Spotlight</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#leaders">Leaders</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-collage" id="heroCollage"></div>
+
+  <svg class="torn-top" viewBox="0 0 1440 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,0 L0,25 Q18,33 36,24 Q54,15 72,28 Q90,41 108,30 Q126,19 144,33 Q162,47 180,36 Q198,25 216,38 Q234,51 252,40 Q270,29 288,42 Q306,55 324,43 Q342,31 360,45 Q378,59 396,46 Q414,33 432,47 Q450,61 468,48 Q486,35 504,49 Q522,63 540,50 Q558,37 576,51 Q594,65 612,52 Q630,39 648,53 Q666,67 684,54 Q702,41 720,55 Q738,69 756,55 Q774,41 792,55 Q810,69 828,55 Q846,41 864,55 Q882,69 900,55 Q918,41 936,55 Q954,69 972,55 Q990,41 1008,55 Q1026,69 1044,55 Q1062,41 1080,54 Q1098,67 1116,54 Q1134,41 1152,53 Q1170,65 1188,53 Q1206,41 1224,52 Q1242,63 1260,52 Q1278,41 1296,52 Q1314,63 1332,52 Q1350,41 1368,51 Q1386,61 1404,51 Q1422,41 1440,49 L1440,0 Z" fill="#faf8f5"/>
+  </svg>
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <h1 class="hero-title">
+      <span>OHS</span>
+      ART CLUB
+    </h1>
+    <svg class="ornament" width="160" height="20" viewBox="0 0 160 20">
+      <line x1="0" y1="10" x2="55" y2="10" stroke="#b8873a" stroke-width="0.8"/>
+      <circle cx="64" cy="10" r="2.5" fill="none" stroke="#b8873a" stroke-width="0.8"/>
+      <circle cx="80" cy="10" r="4" fill="none" stroke="#b8873a" stroke-width="0.8"/>
+      <circle cx="80" cy="10" r="1.8" fill="#b8873a"/>
+      <circle cx="96" cy="10" r="2.5" fill="none" stroke="#b8873a" stroke-width="0.8"/>
+      <line x1="105" y1="10" x2="160" y2="10" stroke="#b8873a" stroke-width="0.8"/>
+    </svg>
+    <p class="hero-sub">Some cool slogan or something</p>
+    <div class="hero-cta">
+      <a href="#gallery" class="btn btn-primary">Archives</a>
+      <a href="#people" class="btn btn-outline">Meet the Team</a>
+    </div>
+  </div>
+
+  <svg class="torn-bottom" viewBox="0 0 1440 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,70 L0,45 Q18,37 36,46 Q54,55 72,43 Q90,31 108,43 Q126,55 144,43 Q162,31 180,43 Q198,55 216,43 Q234,31 252,44 Q270,57 288,44 Q306,31 324,44 Q342,57 360,44 Q378,31 396,44 Q414,57 432,44 Q450,31 468,44 Q486,57 504,44 Q522,31 540,45 Q558,59 576,45 Q594,31 612,44 Q630,57 648,44 Q666,31 684,44 Q702,57 720,44 Q738,31 756,44 Q774,57 792,44 Q810,31 828,44 Q846,57 864,44 Q882,31 900,44 Q918,57 936,44 Q954,31 972,45 Q990,59 1008,45 Q1026,31 1044,44 Q1062,57 1080,44 Q1098,31 1116,44 Q1134,57 1152,44 Q1170,31 1188,44 Q1206,57 1224,44 Q1242,31 1260,44 Q1278,57 1296,44 Q1314,31 1332,44 Q1350,57 1368,44 Q1386,31 1404,44 Q1422,57 1440,44 L1440,70 Z" fill="#faf8f5"/>
+  </svg>
+
+  </div>
+</section>
+
+<!-- SPOTLIGHT -->
+<section id="spotlight" style="background:var(--warm-white);">
+  <div class="spotlight-wrap">
+    <div style="margin-bottom:2.5rem;">
+      <p class="section-label reveal">Featured This Month</p>
+      <h2 class="section-title reveal reveal-delay-1">Artist &amp; Event <em>Spotlight</em></h2>
+      <div class="divider-line reveal reveal-delay-2"></div>
+    </div>
+    <div class="spotlight reveal">
+      <div class="spotlight-art">
+        <svg viewBox="0 0 560 440" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="560" height="440" fill="#ede5d8"/>
+          <ellipse cx="280" cy="210" rx="190" ry="165" fill="rgba(184,135,58,0.07)"/>
+          <path d="M180,140 Q280,70 380,150 Q330,225 280,200 Q230,225 180,140Z" fill="rgba(60,110,70,0.35)"/>
+          <path d="M160,195 Q230,125 310,195 Q275,268 230,245 Q185,268 160,195Z" fill="rgba(45,95,55,0.42)"/>
+          <path d="M310,165 Q390,110 445,195 Q410,265 365,242 Q325,265 310,165Z" fill="rgba(60,110,70,0.32)"/>
+          <ellipse cx="280" cy="170" rx="11" ry="28" fill="rgba(26,22,18,0.12)" transform="rotate(0,280,210)"/>
+          <ellipse cx="280" cy="170" rx="11" ry="28" fill="rgba(26,22,18,0.09)" transform="rotate(45,280,210)"/>
+          <ellipse cx="280" cy="170" rx="11" ry="28" fill="rgba(26,22,18,0.12)" transform="rotate(90,280,210)"/>
+          <ellipse cx="280" cy="170" rx="11" ry="28" fill="rgba(26,22,18,0.09)" transform="rotate(135,280,210)"/>
+          <ellipse cx="280" cy="170" rx="11" ry="28" fill="rgba(26,22,18,0.12)" transform="rotate(180,280,210)"/>
+          <ellipse cx="280" cy="170" rx="11" ry="28" fill="rgba(26,22,18,0.09)" transform="rotate(225,280,210)"/>
+          <ellipse cx="280" cy="170" rx="11" ry="28" fill="rgba(26,22,18,0.12)" transform="rotate(270,280,210)"/>
+          <ellipse cx="280" cy="170" rx="11" ry="28" fill="rgba(26,22,18,0.09)" transform="rotate(315,280,210)"/>
+          <circle cx="280" cy="210" r="32" fill="rgba(184,135,58,0.18)"/>
+          <circle cx="280" cy="210" r="20" fill="rgba(184,135,58,0.28)"/>
+          <circle cx="280" cy="210" r="9" fill="rgba(184,135,58,0.55)"/>
+          <line x1="280" y1="242" x2="260" y2="370" stroke="rgba(60,110,70,0.5)" stroke-width="2.5"/>
+          <line x1="272" y1="280" x2="225" y2="335" stroke="rgba(60,110,70,0.38)" stroke-width="1.8"/>
+          <line x1="264" y1="315" x2="218" y2="358" stroke="rgba(60,110,70,0.3)" stroke-width="1.2"/>
+          <circle cx="185" cy="295" r="14" fill="rgba(180,75,75,0.28)"/>
+          <circle cx="185" cy="295" r="7" fill="rgba(180,75,75,0.45)"/>
+          <circle cx="375" cy="318" r="10" fill="rgba(90,140,200,0.22)"/>
+          <circle cx="375" cy="318" r="5" fill="rgba(90,140,200,0.38)"/>
+          <circle cx="145" cy="175" r="2" fill="rgba(184,135,58,0.55)"/>
+          <circle cx="405" cy="158" r="1.5" fill="rgba(184,135,58,0.45)"/>
+          <circle cx="428" cy="290" r="2" fill="rgba(184,135,58,0.5)"/>
+          <circle cx="125" cy="315" r="1.5" fill="rgba(184,135,58,0.4)"/>
+        </svg>
+      </div>
+      <div class="spotlight-info">
+        <div class="artist-tag">Featured Artist</div>
+        <p class="artist-name">First Name/Last Name</p>
+        <p class="artist-grade">Grade &nbsp;·&nbsp; Medium</p>
+        <p class="artwork-title">Artwork Title"</p>
+        <p class="artwork-desc">Artwork description goes here, if any. Something about what inspired the piece, how they created it, etc.</p>
+        <a href="#people" class="btn btn-primary" style="align-self:flex-start;">Meet the Artist</a>
+      </div>
+    </div>
+    <div class="event-banner reveal">
+      <div class="event-date">24<span>Month/Date</span></div>
+      <div class="event-vr"></div>
+      <div class="event-details">
+        <p class="event-type">Upcoming Event</p>
+        <p class="event-name">Featured Event Name</p>
+        <p class="event-meta">Time Here</p>
+      </div>
+      <a href="#people" class="btn btn-gold">Form Link?</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" style="background:var(--parchment);">
+  <div class="about-inner">
+    <div class="about-left">
+      <p class="section-label reveal">About Us</p>
+      <h2 class="section-title reveal reveal-delay-1">A Space to <em>Create</em></h2>
+      <div class="divider-line reveal reveal-delay-2"></div>
+      <div class="about-stats reveal reveal-delay-1">
+        <div class="stat-box"><div class="stat-number">##</div><div class="stat-label">Stat</div></div>
+        <div class="stat-box"><div class="stat-number">##</div><div class="stat-label">Stat</div></div>
+        <div class="stat-box"><div class="stat-number">##</div><div class="stat-label">Stat</div></div>
+        <div class="stat-box"><div class="stat-number">##</div><div class="stat-label">Stat</div></div>
+      </div>
+    </div>
+    <div class="about-body">
+      <p class="reveal">The <strong>OHS Art Club</strong> is a student-led creative community dedicated to the exploration and celebration of visual art in all its forms. We work to create a space for students to explore their interests in art and to create a community of support and learning.</p>
+      <p class="reveal reveal-delay-1">We believe art is not a talent you either have or don't — it is something that <strong>anyone can learn</strong>. Whether you have never picked up a brush or are already selling your work online, there is a place for you here.</p>
+      <p class="reveal reveal-delay-2">Every semester we run workshops,art showcases, and other events! All skill levels and artistic interests are welcome.</p>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery" style="background:var(--warm-white);">
+  <div class="gallery-inner">
+    <div class="gallery-header">
+      <div>
+        <p class="section-label reveal">Past Events</p>
+        <h2 class="section-title reveal reveal-delay-1">From the <em>Archive</em></h2>
+      </div>
+      <a href="#" class="btn btn-outline reveal">View All</a>
+    </div>
+    <div class="gallery-grid reveal">
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <rect width="800" height="300" fill="#d9cebd"/>
+            <rect width="400" height="300" fill="#cfc3b0"/>
+            <ellipse cx="200" cy="150" rx="140" ry="115" fill="rgba(184,135,58,0.15)"/>
+            <path d="M60,80 Q200,18 340,100 Q280,185 200,162 Q118,185 60,80Z" fill="rgba(120,80,50,0.3)"/>
+            <circle cx="200" cy="130" r="38" fill="rgba(184,135,58,0.2)"/>
+            <circle cx="200" cy="130" r="16" fill="rgba(184,135,58,0.35)"/>
+            <rect x="400" width="400" height="300" fill="#c8baa5"/>
+            <ellipse cx="600" cy="150" rx="130" ry="108" fill="rgba(70,110,180,0.1)"/>
+            <path d="M460,80 Q580,38 700,122 Q650,202 578,177 Q508,202 460,80Z" fill="rgba(50,80,150,0.28)"/>
+          </svg>
+        </div>
+        <div class="gallery-overlay"><p class="gallery-event-name">Event 1</p><p class="gallery-event-date">Month - Year</p></div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <rect width="300" height="300" fill="#d1c9b8"/>
+            <circle cx="150" cy="130" r="88" fill="rgba(184,135,58,0.1)"/>
+            <path d="M80,102 Q150,42 220,102 Q200,172 150,152 Q100,172 80,102Z" fill="rgba(55,130,90,0.38)"/>
+            <ellipse cx="150" cy="120" rx="24" ry="28" fill="rgba(220,160,100,0.35)"/>
+            <circle cx="150" cy="116" r="11" fill="rgba(220,160,100,0.5)"/>
+          </svg>
+        </div>
+        <div class="gallery-overlay"><p class="gallery-event-name">Event 2</p><p class="gallery-event-date">Month - Year</p></div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <rect width="300" height="300" fill="#cac0ad"/>
+            <rect x="30" y="30" width="240" height="240" fill="none" stroke="rgba(26,22,18,0.12)" stroke-width="1"/>
+            <circle cx="150" cy="150" r="68" fill="rgba(160,55,70,0.18)"/>
+            <circle cx="150" cy="150" r="42" fill="rgba(160,55,70,0.14)"/>
+            <circle cx="150" cy="150" r="22" fill="rgba(160,55,70,0.25)"/>
+            <circle cx="150" cy="150" r="9" fill="rgba(160,55,70,0.45)"/>
+            <line x1="82" y1="150" x2="218" y2="150" stroke="rgba(26,22,18,0.1)" stroke-width="0.5"/>
+            <line x1="150" y1="82" x2="150" y2="218" stroke="rgba(26,22,18,0.1)" stroke-width="0.5"/>
+          </svg>
+        </div>
+        <div class="gallery-overlay"><p class="gallery-event-name">Event 3</p><p class="gallery-event-date">Month - Year</p></div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-thumb">
+          <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <rect width="800" height="300" fill="#ccc3b2"/>
+            <rect x="80" y="80" width="78" height="98" rx="2" fill="rgba(26,22,18,0.07)" stroke="rgba(26,22,18,0.1)" stroke-width="0.5"/>
+            <rect x="200" y="68" width="98" height="108" rx="2" fill="rgba(26,22,18,0.07)" stroke="rgba(26,22,18,0.1)" stroke-width="0.5"/>
+            <rect x="340" y="84" width="88" height="92" rx="2" fill="rgba(26,22,18,0.07)" stroke="rgba(26,22,18,0.1)" stroke-width="0.5"/>
+            <rect x="470" y="74" width="108" height="102" rx="2" fill="rgba(26,22,18,0.07)" stroke="rgba(26,22,18,0.1)" stroke-width="0.5"/>
+            <rect x="620" y="88" width="82" height="88" rx="2" fill="rgba(26,22,18,0.07)" stroke="rgba(26,22,18,0.1)" stroke-width="0.5"/>
+            <line x1="119" y1="76" x2="119" y2="52" stroke="rgba(26,22,18,0.15)" stroke-width="0.5"/>
+            <line x1="249" y1="64" x2="249" y2="52" stroke="rgba(26,22,18,0.15)" stroke-width="0.5"/>
+            <line x1="384" y1="80" x2="384" y2="52" stroke="rgba(26,22,18,0.15)" stroke-width="0.5"/>
+            <line x1="524" y1="70" x2="524" y2="52" stroke="rgba(26,22,18,0.15)" stroke-width="0.5"/>
+            <line x1="661" y1="84" x2="661" y2="52" stroke="rgba(26,22,18,0.15)" stroke-width="0.5"/>
+          </svg>
+        </div>
+        <div class="gallery-overlay"><p class="gallery-event-name">Event 5</p><p class="gallery-event-date">Month - Year</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PEOPLE -->
+<section id="leaders" class="people-section">
+  <div class="people-inner">
+    <div class="people-header">
+      <p class="section-label reveal">The Team</p>
+      <h2 class="section-title reveal reveal-delay-1">Our Leaders</h2>
+      <div class="divider-line reveal reveal-delay-2"></div>
+      <p class="reveal reveal-delay-3" style="font-size:0.92rem;line-height:1.85;color:var(--ink-soft);max-width:55ch;">We are students, artists, and dreamers. Our leadership keeps the club running — but every member shapes what we become.</p>
+    </div>
+
+    <div class="people-grid">
+      <div class="person-card reveal">
+        <div class="person-avatar">
+          <svg viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg">
+            <rect width="260" height="260" fill="#d9cebd"/>
+            <ellipse cx="130" cy="95" rx="88" ry="78" fill="rgba(184,135,58,0.12)"/>
+            <path d="M40,105 Q130,32 220,108 Q198,196 130,172 Q60,196 40,105Z" fill="rgba(55,100,65,0.3)"/>
+            <circle cx="130" cy="108" r="36" fill="rgba(184,135,58,0.22)"/>
+            <circle cx="130" cy="108" r="21" fill="rgba(184,135,58,0.32)"/>
+            <circle cx="130" cy="108" r="9" fill="rgba(184,135,58,0.55)"/>
+            <text x="130" y="242" text-anchor="middle" font-family="'Cormorant Garamond', serif" font-size="10" fill="rgba(26,22,18,0.32)" letter-spacing="2">PLACE PHOTO HERE</text>
+          </svg>
+        </div>
+        <div class="person-info">
+          <p class="person-name">First Name / Last Name</p>
+          <p class="person-grade">Grade &nbsp;·&nbsp; Medium</p>
+          <p class="person-bio">Bio goes here! You can write about what you do for the club, and what you're interested in, and anything else you want to share.</p>
+        </div>
+      </div>
+
+      <div class="person-card reveal reveal-delay-1">
+        <div class="person-avatar">
+          <svg viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg">
+            <rect width="260" height="260" fill="#c8c0b0"/>
+            <ellipse cx="130" cy="110" rx="90" ry="80" fill="rgba(60,100,165,0.1)"/>
+            <path d="M50,118 Q130,48 210,118 Q185,200 130,178 Q74,200 50,118Z" fill="rgba(55,80,155,0.25)"/>
+            <path d="M75,140 Q130,95 188,140 Q165,195 130,182 Q95,195 75,140Z" fill="rgba(80,110,180,0.22)"/>
+            <ellipse cx="130" cy="118" rx="26" ry="30" fill="rgba(220,160,100,0.32)"/>
+            <circle cx="130" cy="114" r="12" fill="rgba(220,160,100,0.5)"/>
+            <text x="130" y="242" text-anchor="middle" font-family="'Cormorant Garamond', serif" font-size="10" fill="rgba(26,22,18,0.32)" letter-spacing="2">PLACE PHOTO HERE</text>
+          </svg>
+        </div>
+        <div class="person-info">
+          <p class="person-name">First Name / Last Name</p>
+          <p class="person-grade">Grade &nbsp;·&nbsp; Medium</p>
+          <p class="person-bio">Bio goes here! You can write about what you do for the club, and what you're interested in, and anything else you want to share.</p>
+        </div>
+      </div>
+
+      <div class="person-card reveal reveal-delay-2">
+        <div class="person-avatar">
+          <svg viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg">
+            <rect width="260" height="260" fill="#d4caba"/>
+            <ellipse cx="130" cy="100" rx="85" ry="75" fill="rgba(160,55,70,0.1)"/>
+            <path d="M55,112 Q130,45 205,112 Q182,192 130,170 Q76,192 55,112Z" fill="rgba(150,50,65,0.28)"/>
+            <circle cx="130" cy="105" r="42" fill="none" stroke="rgba(184,135,58,0.25)" stroke-width="1"/>
+            <circle cx="130" cy="105" r="26" fill="rgba(184,135,58,0.15)"/>
+            <circle cx="130" cy="105" r="13" fill="rgba(184,135,58,0.3)"/>
+            <circle cx="130" cy="105" r="5" fill="rgba(184,135,58,0.6)"/>
+            <text x="130" y="242" text-anchor="middle" font-family="'Cormorant Garamond', serif" font-size="10" fill="rgba(26,22,18,0.32)" letter-spacing="2">PLACE PHOTO HERE</text>
+          </svg>
+        </div>
+        <div class="person-info">
+          <p class="person-name">First Name / Last Name</p>
+          <p class="person-grade">Grade &nbsp;·&nbsp; Medium</p>
+          <p class="person-bio">Bio goes here! You can write about what you do for the club, and what you're interested in, and anything else you want to share.</p>
+        </div>
+      </div>
+
+      <div class="person-card reveal reveal-delay-3">
+        <div class="person-avatar">
+          <svg viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg">
+            <rect width="260" height="260" fill="#c4baa8"/>
+            <ellipse cx="130" cy="105" rx="90" ry="80" fill="rgba(60,130,80,0.1)"/>
+            <path d="M48,115 Q130,48 212,115 Q188,198 130,175 Q70,198 48,115Z" fill="rgba(50,120,70,0.28)"/>
+            <path d="M80,80 L130,40 L180,80 L165,130 L130,120 L95,130Z" fill="rgba(26,22,18,0.1)"/>
+            <ellipse cx="130" cy="90" rx="22" ry="26" fill="rgba(184,135,58,0.28)"/>
+            <circle cx="130" cy="86" r="10" fill="rgba(184,135,58,0.5)"/>
+            <text x="130" y="242" text-anchor="middle" font-family="'Cormorant Garamond', serif" font-size="10" fill="rgba(26,22,18,0.32)" letter-spacing="2">PLACE PHOTO HERE</text>
+          </svg>
+        </div>
+        <div class="person-info">
+          <p class="person-name">First Name / Last Name</p>
+          <p class="person-grade">Grade &nbsp;·&nbsp; Medium</p>
+          <p class="person-bio">Bio goes here! You can write about what you do for the club, and what you're interested in, and anything else you want to share.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-strip reveal">
+      <div class="contact-item">
+        <span class="contact-item-label">Meetings</span>
+        <span class="contact-item-value">Meetings date here</span>
+        <span class="contact-item-sub">Meetings time here</span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-item-label">Pronto</span>
+        <span class="contact-item-value">Pronto link here</span>
+        <span class="contact-item-sub">Details or something here</span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-item-label">Follow On</span>
+        <span class="contact-item-value">@instagram</span>
+        <span class="contact-item-sub">If we get an Instagram, put it here?</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-logo">OHS Art Club</span>
+  <span class="footer-copy">© 2026 Stanford Online High School Art Club. All rights reserved.</span>
+</footer>
+
+<script>
+const collage = document.getElementById('heroCollage');
+const palettes = [
+  ['#d9cebd','#c8baa5','#b8a98e'],
+  ['#c8c0b0','#b8b0a0','#a89888'],
+  ['#d4caba','#c4baaa','#b4aa98'],
+];
+for (let i = 0; i < 28; i++) {
+  const p = palettes[i % palettes.length];
+  const cell = document.createElement('div');
+  cell.className = 'collage-cell';
+  const useLeaf = i % 2 === 0;
+  cell.innerHTML = useLeaf
+    ? `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" fill="${p[i%3]}"/><ellipse cx="${70+i*11%80}" cy="${80+i*9%70}" rx="${45+i%30}" ry="${38+i%25}" fill="rgba(184,135,58,0.12)"/><path d="M${30+i*8%60},${60+i*7%60} Q100,${18+i*8%45} ${165+i*4%30},${70+i*7%60} Q${145+i*5%40},${145+i*6%55} 100,${130+i*5%40} Q${55+i*3%40},${145+i*5%35} ${30+i*8%60},${60+i*7%60}Z" fill="rgba(60,100,70,0.25)"/><circle cx="${120+i*7%40}" cy="${100+i*6%50}" r="${18+i%12}" fill="rgba(160,55,70,0.15)"/></svg>`
+    : `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" fill="${p[(i+1)%3]}"/><rect x="${20+i*5%40}" y="${20+i*6%40}" width="${120+i%50}" height="${120+i%50}" fill="none" stroke="rgba(26,22,18,0.1)" stroke-width="0.8"/><circle cx="${100+i*6%40-20}" cy="${100+i*7%40-20}" r="${30+i%20}" fill="rgba(184,135,58,0.1)"/><line x1="${i*8%60}" y1="${i*7%60}" x2="${140+i*5%60}" y2="${140+i*6%60}" stroke="rgba(26,22,18,0.08)" stroke-width="0.6"/></svg>`;
+  collage.appendChild(cell);
+}
+
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
