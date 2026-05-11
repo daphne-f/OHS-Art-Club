@@ -26,8 +26,8 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; a
 @media (max-width: 640px) { nav { padding: 1rem 1.5rem; } .nav-links { display: none; } }
 
 /* HERO */
-.hero { min-height: 110vh; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; background: var(--parchment); }
-.hero-collage { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(7,1fr); grid-template-rows: repeat(4,1fr); }
+.hero { min-height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; background: var(--parchment); }
+.hero-collage { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(7,1fr); grid-template-rows: repeat(5,1fr); }
 .collage-cell { overflow: hidden; }
 .collage-cell img { width: 100%; height: 100%; display: block; object-fit: cover; }
 .hero-overlay { position: absolute; inset: 0; background: rgba(247,242,235,0.74); z-index: 1; }
@@ -36,7 +36,6 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; a
 .hero-content { position: relative; z-index: 3; text-align: center; display: flex; flex-direction: column; align-items: center; padding: 0 2rem; }
 .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(4.5rem,14vw,12rem); font-weight: 300; line-height: 0.86; letter-spacing: -0.015em; color: var(--navy); animation: fadeUp 0.9s 0.12s ease both; }
 .hero-title span { display: block; font-size: 0.35em; letter-spacing: 0.45em; font-weight: 300; color: var(--ink-mid); margin-bottom: 0.15em; }
-.ornament { margin: 2rem 0 1.6rem; animation: fadeUp 0.9s 0.25s ease both; }
 .hero-sub { font-size: 0.82rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-soft); animation: fadeUp 0.9s 0.35s ease both; }
 .hero-cta { margin-top: 2.8rem; display: flex; gap: 1rem; animation: fadeUp 0.9s 0.45s ease both; flex-wrap: wrap; justify-content: center; }
 .btn { font-family: 'DM Sans', sans-serif; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; padding: 0.85rem 2rem; text-decoration: none; transition: all 0.25s; cursor: pointer; border: none; display: inline-block; }
@@ -107,10 +106,10 @@ section { padding: 6rem 4rem; }
 .gallery-item { position: relative; overflow: hidden; background: var(--parchment); cursor: pointer; }
 .gallery-item:nth-child(1) { grid-column: span 2; }
 .gallery-item:nth-child(4) { grid-column: span 2; }
-.gallery-thumb { width: 100%; aspect-ratio: 4/3; overflow: hidden; }
+.gallery-thumb { width: 100%; position: relative; overflow: hidden; padding-bottom: 75%; /* 4:3 */ height: 0; }
 .gallery-item:nth-child(1) .gallery-thumb,
-.gallery-item:nth-child(4) .gallery-thumb { aspect-ratio: 16/7; }
-.gallery-thumb img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform 0.6s ease; }
+.gallery-item:nth-child(4) .gallery-thumb { padding-bottom: 43.75%; /* 16:7 */ }
+.gallery-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: cover; transition: transform 0.6s ease; }
 .gallery-item:hover .gallery-thumb img { transform: scale(1.04); }
 .gallery-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(14,27,53,0.82) 0%, transparent 55%); opacity: 0; transition: opacity 0.35s; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.4rem; }
 .gallery-item:hover .gallery-overlay { opacity: 1; }
@@ -120,13 +119,14 @@ section { padding: 6rem 4rem; }
   .gallery-grid { grid-template-columns: repeat(2,1fr); }
   .gallery-item:nth-child(1) { grid-column: span 2; }
   .gallery-item:nth-child(4) { grid-column: span 2; }
-  .gallery-item:nth-child(1) .gallery-thumb, .gallery-item:nth-child(4) .gallery-thumb { aspect-ratio: 16/9; }
+  .gallery-item:nth-child(1) .gallery-thumb,
+  .gallery-item:nth-child(4) .gallery-thumb { padding-bottom: 56.25%; /* 16:9 */ }
   .gallery-overlay { opacity: 1; }
 }
 @media (max-width: 480px) {
   .gallery-grid { grid-template-columns: 1fr; }
   .gallery-item:nth-child(1), .gallery-item:nth-child(4) { grid-column: span 1; }
-  .gallery-item:nth-child(1) .gallery-thumb, .gallery-item:nth-child(4) .gallery-thumb { aspect-ratio: 4/3; }
+  .gallery-item:nth-child(1) .gallery-thumb, .gallery-item:nth-child(4) .gallery-thumb { padding-bottom: 75%; }
 }
 
 /* PEOPLE */
@@ -294,7 +294,7 @@ body.dark .dark-toggle .icon-moon { display: none; } body.dark .dark-toggle .ico
         <p class="section-label reveal">Past Events</p>
         <h2 class="section-title reveal reveal-delay-1">From the <em>Archive</em></h2>
       </div>
-      <a href="https://daphne-f.github.io/OHS-Art-Club/gallery/" class="btn btn-outline reveal">View All</a>
+      <a href="https://daphne-f.github.io/OHS-Art-Club/gallery.html" class="btn btn-outline reveal">View All</a>
     </div>
     <div class="gallery-grid reveal">
       <div class="gallery-item">
@@ -387,16 +387,11 @@ body.dark .dark-toggle .icon-moon { display: none; } body.dark .dark-toggle .ico
 
 <script>
 const IMG = 'https://i.ibb.co/bjWZd8LL/place.jpg';
-const positions = ['center','top left','top right','bottom left','bottom right','center top','center bottom'];
 const collage = document.getElementById('heroCollage');
-for (let i = 0; i < 28; i++) {
+for (let i = 0; i < 35; i++) {
   const cell = document.createElement('div');
   cell.className = 'collage-cell';
-  const img = document.createElement('img');
-  img.src = IMG;
-  img.alt = '';
-  img.style.objectPosition = positions[i % positions.length];
-  cell.appendChild(img);
+  cell.innerHTML = `<img src="${IMG}" style="width:100%;height:100%;object-fit:cover;display:block;" />`;
   collage.appendChild(cell);
 }
 
